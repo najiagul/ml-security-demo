@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  secret-scan:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - run:
+          name: Install Gitleaks
+          command: |
+            curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_$(uname -s)_$(uname -m).tar.gz | tar -xz
+            sudo mv gitleaks /usr/local/bin
+      - run:
+          name: Run Gitleaks secret scan
+          command: gitleaks detect --source . --config .gitleaks.toml --no-git
+
+workflows:
+  version: 2
+  run-security-checks:
+    jobs:
+      - secret-scan

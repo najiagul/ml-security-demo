@@ -1,0 +1,4 @@
+[[rules]]
+description = "Generic API Key"
+regex = '''(?i)(apikey|api_key|secret|token)[\s:=]+['"]?[a-z0-9-_]{8,}['"]?'''
+tags = ["key", "API", "security"]
