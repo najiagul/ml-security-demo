@@ -1,6 +1,20 @@
 version: 2.1
 
 jobs:
+  model-hash-check:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: Retrain model and check hash
+          command: |
+            python model/train.py
+            python model/check_hash.py
+        
   secret-scan:
     docker:
       - image: cimg/python:3.10
@@ -16,7 +30,6 @@ jobs:
       - run:
           name: Run Gitleaks secret scan
           command: gitleaks detect --source . --config .gitleaks.toml --no-git
-
 
   dependency-audit:
     docker:
