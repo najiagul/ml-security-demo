@@ -18,8 +18,24 @@ jobs:
           command: gitleaks detect --source . --config .gitleaks.toml --no-git
 
 
+  dependency-audit:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - run:
+          name: Install pip-audit and dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install pip-audit
+            pip install -r requirements.txt
+      - run:
+          name: Run pip-audit
+          command: pip-audit
+
 workflows:
   version: 2
   run-security-checks:
     jobs:
       - secret-scan
+      - dependency-audit
