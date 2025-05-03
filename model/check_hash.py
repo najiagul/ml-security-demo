@@ -1,9 +1,14 @@
 import hashlib
+import os
 
-with open("model.pkl", "rb") as f:
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
+HASH_PATH = os.path.join(BASE_DIR, "model.sha256")
+
+with open(MODEL_PATH, "rb") as f:
     actual_hash = hashlib.sha256(f.read()).hexdigest()
 
-with open("model.sha256", "r") as f:
+with open(HASH_PATH, "r") as f:
     expected_hash = f.read().strip()
 
 if actual_hash != expected_hash:

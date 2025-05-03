@@ -8,13 +8,15 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: pip install -r requirements.txt
+          command: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
       - run:
           name: Retrain model and check hash
           command: |
             python model/train.py
             python model/check_hash.py
-        
+
   secret-scan:
     docker:
       - image: cimg/python:3.10
